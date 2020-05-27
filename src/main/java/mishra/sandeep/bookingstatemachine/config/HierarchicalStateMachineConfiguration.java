@@ -7,8 +7,8 @@ import org.springframework.statemachine.config.builders.StateMachineConfiguratio
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 
-@Configuration
-@EnableStateMachine
+//@Configuration
+//@EnableStateMachine
 public class HierarchicalStateMachineConfiguration extends StateMachineConfigurerAdapter<String, String> {
 
     @Override

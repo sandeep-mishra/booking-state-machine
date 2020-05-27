@@ -2,9 +2,8 @@ package mishra.sandeep.bookingstatemachine;
 
 import mishra.sandeep.bookingstatemachine.booking.InstructionEvents;
 import mishra.sandeep.bookingstatemachine.booking.InstructionStates;
-import mishra.sandeep.bookingstatemachine.booking.Persist;
+
 import mishra.sandeep.bookingstatemachine.config.AcceptanceBookingStateMachineConfiguration;
-import mishra.sandeep.bookingstatemachine.config.PersistHandlerConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-
 
 @SpringBootTest
 @ContextConfiguration(classes = {AcceptanceBookingStateMachineConfiguration.class})

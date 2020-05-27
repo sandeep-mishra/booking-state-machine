@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
-@Configuration
-@EnableStateMachine
+//@Configuration
+//@EnableStateMachine
 public class SimpleStateMachineConfiguration extends StateMachineConfigurerAdapter<String, String> {
 
     private static final Logger LOGGER = Logger.getLogger(SimpleStateMachineConfiguration.class.getName());
