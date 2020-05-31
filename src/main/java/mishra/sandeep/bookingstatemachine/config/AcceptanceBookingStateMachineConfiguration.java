@@ -4,25 +4,21 @@ import mishra.sandeep.bookingstatemachine.booking.InstructionEvents;
 import mishra.sandeep.bookingstatemachine.booking.InstructionStates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.EnableStateMachine;
-import org.springframework.statemachine.config.EnableStateMachineFactory;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
-import org.springframework.statemachine.config.builders.StateMachineModelConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
-import org.springframework.statemachine.config.model.StateMachineModelFactory;
-import org.springframework.statemachine.data.*;
-import org.springframework.statemachine.recipes.persist.PersistStateMachineHandler;
+import org.springframework.statemachine.data.RepositoryState;
+import org.springframework.statemachine.data.RepositoryTransition;
+import org.springframework.statemachine.data.StateRepository;
+import org.springframework.statemachine.data.TransitionRepository;
 
 @Configuration
 @EnableStateMachine
 @EnableAutoConfiguration
-public class AcceptanceBookingStateMachineConfiguration extends StateMachineConfigurerAdapter<InstructionStates, InstructionEvents> {
+public class AcceptanceBookingStateMachineConfiguration extends StateMachineConfigurerAdapter<InstructionStates, InstructionEvents>{
 
     @Autowired
     private StateRepository<? extends RepositoryState> stateRepository;
@@ -30,17 +26,6 @@ public class AcceptanceBookingStateMachineConfiguration extends StateMachineConf
     @Autowired
     private TransitionRepository<? extends RepositoryTransition> transitionRepository;
 
-//    @Override
-//    public void configure(StateMachineModelConfigurer<InstructionStates, InstructionEvents> model) throws Exception {
-//        model
-//                .withModel()
-//                .factory(modelFactory());
-//    }
-
-//    @Bean
-//    public StateMachineModelFactory<InstructionStates, InstructionEvents> modelFactory() {
-//        return (StateMachineModelFactory<InstructionStates, InstructionEvents>) new RepositoryStateMachineModelFactory(stateRepository, transitionRepository).build();
-//    }
     @Override
     public void configure(StateMachineConfigurationConfigurer<InstructionStates, InstructionEvents> config)
             throws Exception {
@@ -78,5 +63,6 @@ public class AcceptanceBookingStateMachineConfiguration extends StateMachineConf
                 .state(InstructionStates.CANCELLED)
                 ;
     }
+
 
 }

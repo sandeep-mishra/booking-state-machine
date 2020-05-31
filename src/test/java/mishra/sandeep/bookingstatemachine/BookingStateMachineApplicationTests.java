@@ -25,6 +25,7 @@ class BookingStateMachineApplicationTests {
 	@Autowired
 	private StateMachine<InstructionStates, InstructionEvents> stateMachine;
 
+
 	@BeforeEach
 	public void setUp() {
 			stateMachine.start();

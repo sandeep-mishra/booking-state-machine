@@ -1,15 +1,15 @@
 package mishra.sandeep.bookingstatemachine.booking;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.statemachine.annotation.WithStateMachine;
-
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
+@Entity(name = "Instruction")
 @WithStateMachine
-@Entity
 public class Instruction {
+    @Id
     String id;
     String type;
     InstructionStates state;

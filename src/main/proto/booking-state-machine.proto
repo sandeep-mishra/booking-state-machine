@@ -1,0 +1,16 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package mishra.sandeep.bookingstatemachine.proto;
+
+message EventRequest {
+    string instructionId = 1;
+    string event = 2;
+}
+
+message EventResponse {
+    string status = 1;
+}
+
+service EventService {
+    rpc post(EventRequest) returns (EventResponse);
+}
