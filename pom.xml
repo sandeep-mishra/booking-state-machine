@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>mishra.sandeep</groupId>
-	<artifactId>booking-state-machine</artifactId>
+	<artifactId>acceptance-state-machine</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>booking-state-machine</name>
-	<description>Demo project for Booking of Draft</description>
+	<name>acceptance-state-machine</name>
+	<description>Demo project for booking of Draft acceptance</description>
 
 	<properties>
 		<java.version>11</java.version>

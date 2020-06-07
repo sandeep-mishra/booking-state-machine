@@ -1,0 +1,38 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package mishra.sandeep.acceptancestatemachine.proto;
+
+message EventRequest {
+    string instructionId = 1;
+    string event = 2;
+}
+
+message Response {
+    string status = 1;
+}
+
+message AcceptanceResponse {
+    string status = 1;
+}
+
+
+message Acceptance{
+    string id = 1;
+    string status = 2;
+    string faId = 3;
+    string currency = 4;
+}
+
+message StatusSearchRequest{
+    repeated string status = 1;
+}
+
+service EventService {
+    rpc post(EventRequest) returns (Response);
+}
+
+service AcceptanceService {
+    rpc createAcceptance(Acceptance) returns (Response);
+    rpc getAcceptance(Acceptance) returns (stream Acceptance);
+    rpc getAcceptancesByStatus(StatusSearchRequest) returns (stream Acceptance);
+}

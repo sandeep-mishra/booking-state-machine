@@ -1,7 +1,6 @@
-package mishra.sandeep.bookingstatemachine.config;
+package mishra.sandeep.acceptancestatemachine.config.example;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.statemachine.config.EnableStateMachine;
+import mishra.sandeep.acceptancestatemachine.config.StateMachineListener;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
@@ -17,7 +16,7 @@ public class HierarchicalStateMachineConfiguration extends StateMachineConfigure
         config
                 .withConfiguration()
                 .autoStartup(true)
-                .listener(new StateMachineListener());
+                .listener(StateMachineListener.createStateMachineListener());
     }
 
     @Override

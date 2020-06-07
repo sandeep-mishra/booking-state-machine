@@ -1,9 +1,8 @@
-package mishra.sandeep.bookingstatemachine.config;
+package mishra.sandeep.acceptancestatemachine.config.example;
 
+import mishra.sandeep.acceptancestatemachine.config.StateMachineListener;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.action.Action;
-import org.springframework.statemachine.config.EnableStateMachine;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
@@ -25,7 +24,7 @@ public class SimpleStateMachineConfiguration extends StateMachineConfigurerAdapt
         config
           .withConfiguration()
           .autoStartup(true)
-          .listener(new StateMachineListener());
+          .listener(StateMachineListener.createStateMachineListener());
     }
 
     @Override

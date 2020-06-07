@@ -1,23 +1,23 @@
-package mishra.sandeep.bookingstatemachine.client;
+package mishra.sandeep.acceptancestatemachine.client;
 
 import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import mishra.sandeep.bookingstatemachine.proto.EventRequest;
-import mishra.sandeep.bookingstatemachine.proto.EventResponse;
-import mishra.sandeep.bookingstatemachine.proto.EventServiceGrpc;
+import mishra.sandeep.acceptancestatemachine.proto.EventRequest;
+import mishra.sandeep.acceptancestatemachine.proto.Response;
+import mishra.sandeep.acceptancestatemachine.proto.EventServiceGrpc;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BookingClient {
-    private static final Logger logger = Logger.getLogger(BookingClient.class.getName());
+public class AccpetanceClient {
+    private static final Logger logger = Logger.getLogger(AccpetanceClient.class.getName());
 
     private final EventServiceGrpc.EventServiceBlockingStub blockingStub;
 
-    public BookingClient(Channel channel) {
+    public AccpetanceClient(Channel channel) {
         // 'channel' here is a Channel, not a ManagedChannel, so it is not this code's responsibility to
         // shut it down.
 
@@ -28,7 +28,7 @@ public class BookingClient {
     public void post(String instructionId, String event) {
         logger.info("Will try to post event " + event + " ...");
         EventRequest request = EventRequest.newBuilder().setInstructionId("1").setEvent(event).build();
-        EventResponse response;
+        Response response;
         try {
             response = blockingStub.post(request);
         } catch (StatusRuntimeException e) {
@@ -69,7 +69,7 @@ public class BookingClient {
                 .usePlaintext()
                 .build();
         try {
-            BookingClient client = new BookingClient(channel);
+            AccpetanceClient client = new AccpetanceClient(channel);
             client.post(instructionId, event);
         } finally {
             // ManagedChannels use resources like threads and TCP connections. To prevent leaking these

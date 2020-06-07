@@ -1,6 +1,6 @@
 spring:
   application:
-    name: booking-state-machine
+    name: acceptance-state-machine
   output:
     ansi:
       enabled: always
@@ -23,6 +23,10 @@ spring:
     generate-ddl: true
     hibernate:
       use-new-id-generator-mappings: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+
 
   data:
     rest:

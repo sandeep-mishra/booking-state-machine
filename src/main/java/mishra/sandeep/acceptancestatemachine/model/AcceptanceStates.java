@@ -1,6 +1,6 @@
-package mishra.sandeep.bookingstatemachine.booking;
+package mishra.sandeep.acceptancestatemachine.model;
 
-public enum InstructionStates {
+public enum AcceptanceStates {
     PENDING,
     ACCOUNTING_IN_PROGRESS,
     VALIDATED,
