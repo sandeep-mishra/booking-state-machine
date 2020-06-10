@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan("mishra.sandeep.bookingstatemachine.booking")
+@EntityScan("mishra.sandeep.acceptancestatemachine.model")
 public class AcceptanceStateMachineApplication {
 
 	public static void main(String[] args) {
