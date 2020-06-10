@@ -42,7 +42,6 @@ public class StateMachineCollection {
             StateMachine<AcceptanceStates, AcceptanceEvents> stateMachine = factory.getStateMachine(id);
             stateMachine.getStateMachineAccessor().withRegion().addStateMachineInterceptor(acceptanceStateMachineInterceptor);
             stateMachines.put(id, stateMachine);
-
         }
 
         return true;

@@ -33,8 +33,6 @@ public class EventService extends EventServiceGrpc.EventServiceImplBase {
             response = stateMachines.getStateMachine(request.getInstructionId()).sendEvent(AcceptanceEvents.valueOf(request.getEvent()));
         }
 
-
-
         Response eventResponse;
         if(response == true)
             eventResponse = Response.newBuilder().setStatus("Success").build();

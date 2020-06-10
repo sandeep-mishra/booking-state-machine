@@ -1,10 +1,11 @@
 package mishra.sandeep.acceptancestatemachine.model;
 
 import org.springframework.statemachine.annotation.WithStateMachine;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name = "Acceptance")
+@Entity
 @WithStateMachine
 public class Acceptance {
     @Id

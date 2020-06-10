@@ -58,6 +58,4 @@ public class AcceptanceStateMachineInterceptor extends StateMachineInterceptorAd
     public Exception stateMachineError(StateMachine stateMachine, Exception exception) {
         return super.stateMachineError(stateMachine, exception);
     }
-
-
 }

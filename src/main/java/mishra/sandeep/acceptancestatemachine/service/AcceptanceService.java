@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 @GRpcService
@@ -22,7 +24,6 @@ public class AcceptanceService extends AcceptanceServiceGrpc.AcceptanceServiceIm
 
     @Autowired
     StateMachineCollection stateMachines;
-
 
     @Override
     @Transactional
@@ -58,6 +59,16 @@ public class AcceptanceService extends AcceptanceServiceGrpc.AcceptanceServiceIm
 
     @Override
     public void getAcceptancesByStatus(StatusSearchRequest request, StreamObserver<mishra.sandeep.acceptancestatemachine.proto.Acceptance> responseObserver) {
-        super.getAcceptancesByStatus(request, responseObserver);
+        List<Acceptance> acceptances = acceptanceRepository.findByState(AcceptanceStates.valueOf(request.getStatus(0)));
+
+        mishra.sandeep.acceptancestatemachine.proto.Acceptance acceptance = null;
+
+        Iterator<Acceptance> iterator = acceptances.listIterator();
+        while(iterator.hasNext())
+        {
+            Acceptance i = iterator.next();
+            responseObserver.onNext(mishra.sandeep.acceptancestatemachine.proto.Acceptance.newBuilder().setId(i.getId()).setCurrency("sgd").setFaId("fa_id").setStatus(i.getState().name()).build());
+        }
+        responseObserver.onCompleted();
     }
 }
