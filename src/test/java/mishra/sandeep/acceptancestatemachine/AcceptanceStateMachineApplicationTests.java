@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.test.context.ContextConfiguration;
 
 import static junit.framework.TestCase.assertTrue;
@@ -23,12 +24,15 @@ class AcceptanceStateMachineApplicationTests {
 	}
 
 	@Autowired
-	private StateMachine<AcceptanceStates, AcceptanceEvents> stateMachine;
+	StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
 
+	private StateMachine<AcceptanceStates, AcceptanceEvents> stateMachine;
 
 	@BeforeEach
 	public void setUp() {
-			stateMachine.start();
+
+		stateMachine = factory.getStateMachine();
+		stateMachine.start();
 		}
 
 	@Test
