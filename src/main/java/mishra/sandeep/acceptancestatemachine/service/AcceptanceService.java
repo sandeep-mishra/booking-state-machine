@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @GRpcService
 public class AcceptanceService extends AcceptanceServiceGrpc.AcceptanceServiceImplBase {
+
     @Autowired
     AcceptanceRepository acceptanceRepository;
 
