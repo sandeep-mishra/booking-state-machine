@@ -1,12 +1,9 @@
 package mishra.sandeep.acceptancestatemachine.model;
 
-import org.springframework.statemachine.annotation.WithStateMachine;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@WithStateMachine
 public class Acceptance {
     @Id
     private

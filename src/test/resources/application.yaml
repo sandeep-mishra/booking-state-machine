@@ -5,20 +5,27 @@ spring:
     ansi:
       enabled: always
   datasource:
-    platform: POSTGRESQL
-    url: "jdbc:postgresql://localhost:5432/acceptance-booking"
-    username: postgres
-    password: admin
+    platform: h2
+    url: "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false"
+    username: sa
+    password:
+
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others:true
 
   jpa:
-    database: POSTGRESQL
+    database: h2
     generate-ddl: true
     hibernate:
       use-new-id-generator-mappings: true
     properties:
       hibernate:
         enable_lazy_load_no_trans: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 
   data:
@@ -29,4 +36,4 @@ logging:
   level:
     root: 'INFO'
     org.hibernate.SQL: DEBUG
-    org.springframework.statemachine: DEBUG
+

@@ -24,6 +24,7 @@ import io.grpc.testing.GrpcCleanupRule;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -42,8 +43,8 @@ class AcceptanceServiceTest {
     @Mock
     StateMachineCollection stateMachines;
 
-    @Mock
-    StateMachine<AcceptanceStates, AcceptanceEvents> stateMachine;
+   @Autowired
+    StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
 
     @Rule
     public final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
@@ -58,8 +59,8 @@ class AcceptanceServiceTest {
         acceptance.setCurrency("SGD");
 
         Mockito.when(acceptanceRepository.save(acceptance)).thenReturn(acceptance);
-        Mockito.when(stateMachines.getStateMachine("1")).thenReturn(stateMachine);
-        //Mockito.when(stateMachine.toString()).thenReturn();
+
+        Mockito.when(stateMachines.getStateMachine("1")).thenReturn(factory.getStateMachine("1"));
     }
 
     @AfterEach

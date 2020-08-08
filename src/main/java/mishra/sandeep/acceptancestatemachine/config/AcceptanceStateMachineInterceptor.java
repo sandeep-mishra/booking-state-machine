@@ -26,7 +26,7 @@ public class AcceptanceStateMachineInterceptor extends StateMachineInterceptorAd
     @Override
     public Message preEvent(Message message, StateMachine stateMachine) {
 
-        logger.info("Received event {} for id {}", message.getHeaders().getId(),stateMachine.getId());
+        logger.info("Received event {} for id {}", message.getPayload(),stateMachine.getId());
 
         return super.preEvent(message, stateMachine);
     }

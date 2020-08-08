@@ -1,9 +1,10 @@
 package mishra.sandeep.acceptancestatemachine.model;
 
 public enum AcceptanceEvents {
+
+        VALIDATE,
         APPROVE,
         CANCEL,
-        CREATE,
-        REJECT,
-        VALIDATE
+        REJECT
+
 }
