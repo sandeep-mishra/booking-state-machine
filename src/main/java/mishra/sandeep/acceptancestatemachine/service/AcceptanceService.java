@@ -2,14 +2,17 @@ package mishra.sandeep.acceptancestatemachine.service;
 
 import io.grpc.stub.StreamObserver;
 import mishra.sandeep.acceptancestatemachine.model.Acceptance;
+import mishra.sandeep.acceptancestatemachine.model.AcceptanceEvents;
 import mishra.sandeep.acceptancestatemachine.model.AcceptanceStates;
-import mishra.sandeep.acceptancestatemachine.config.StateMachineCollection;
 import mishra.sandeep.acceptancestatemachine.proto.AcceptanceServiceGrpc;
 import mishra.sandeep.acceptancestatemachine.proto.Response;
 import mishra.sandeep.acceptancestatemachine.proto.StatusSearchRequest;
 import mishra.sandeep.acceptancestatemachine.repository.AcceptanceRepository;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.data.StateMachineRepository;
+import org.springframework.statemachine.service.DefaultStateMachineService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -24,22 +27,44 @@ public class AcceptanceService extends AcceptanceServiceGrpc.AcceptanceServiceIm
     AcceptanceRepository acceptanceRepository;
 
     @Autowired
-    StateMachineCollection stateMachines;
+    StateMachineRepository stateMachineRepository;
+
+    @Autowired
+    private DefaultStateMachineService<AcceptanceStates, AcceptanceEvents> stateMachineService;
 
     @Override
     @Transactional
     public void createAcceptance(mishra.sandeep.acceptancestatemachine.proto.Acceptance request, StreamObserver<Response> responseObserver) {
-        Acceptance acceptance = new Acceptance(request.getId());
-        acceptance.setFaId(request.getFaId());
-        acceptance.setCurrency(request.getCurrency());
-        acceptance.setTimestamp(Instant.now().toString());
-        acceptanceRepository.save(acceptance);
+        String machineId = request.getId();
+        Response response = null;
 
-        stateMachines.createStateMachine(acceptance.getId());
-        acceptance.setState(AcceptanceStates.valueOf(stateMachines.getStateMachine(acceptance.getId()).getState().getId().name()));
-        acceptanceRepository.save(acceptance);
+        if (stateMachineService.hasStateMachine(machineId) || stateMachineRepository.findById(machineId).isPresent()) {
+            //StateMachine is regisered in service and active OR
+            //StateMachine is  available in persistance
+            //hence creation fails.
 
-        Response response = Response.newBuilder().setStatus("Success").build();
+            response = Response.newBuilder().setStatus("Failure").build();
+        } else {
+
+            Acceptance acceptance = new Acceptance(request.getId());
+            acceptance.setFaId(request.getFaId());
+            acceptance.setCurrency(request.getCurrency());
+            acceptance.setTimestamp(Instant.now().toString());
+            acceptanceRepository.save(acceptance);
+
+            StateMachine<AcceptanceStates, AcceptanceEvents> stateMachine = null;
+            try {
+                stateMachine = stateMachineService.acquireStateMachine(machineId, true);
+
+                //update status in acceptance record
+                acceptance.setState(AcceptanceStates.valueOf(stateMachine.getState().getId().name()));
+                acceptanceRepository.save(acceptance);
+
+                response = Response.newBuilder().setStatus("Success").build();
+            } catch (Exception e) {
+                response = Response.newBuilder().setStatus("Failure").build();
+            }
+        }
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

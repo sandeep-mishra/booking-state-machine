@@ -2,7 +2,7 @@ package mishra.sandeep.acceptancestatemachine.service;
 
 import io.grpc.inprocess.InProcessChannelBuilder;
 import io.grpc.inprocess.InProcessServerBuilder;
-import mishra.sandeep.acceptancestatemachine.config.StateMachineCollection;
+import io.grpc.testing.GrpcCleanupRule;
 import mishra.sandeep.acceptancestatemachine.model.AcceptanceEvents;
 import mishra.sandeep.acceptancestatemachine.model.AcceptanceStates;
 import mishra.sandeep.acceptancestatemachine.proto.Acceptance;
@@ -13,23 +13,19 @@ import org.junit.Rule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.grpc.testing.GrpcCleanupRule;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
+import org.springframework.statemachine.service.DefaultStateMachineService;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 class AcceptanceServiceTest {
@@ -41,7 +37,7 @@ class AcceptanceServiceTest {
     AcceptanceRepository acceptanceRepository;
 
     @Mock
-    StateMachineCollection stateMachines;
+    DefaultStateMachineService<AcceptanceStates, AcceptanceEvents> stateMachineService;
 
    @Autowired
     StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
@@ -50,7 +46,7 @@ class AcceptanceServiceTest {
     public final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         mishra.sandeep.acceptancestatemachine.model.Acceptance acceptance = new mishra.sandeep.acceptancestatemachine.model.Acceptance();
@@ -59,8 +55,8 @@ class AcceptanceServiceTest {
         acceptance.setCurrency("SGD");
 
         Mockito.when(acceptanceRepository.save(acceptance)).thenReturn(acceptance);
-
-        Mockito.when(stateMachines.getStateMachine("1")).thenReturn(factory.getStateMachine("1"));
+        Mockito.when(stateMachineService.hasStateMachine("1")).thenReturn(false);
+        Mockito.when(stateMachineService.acquireStateMachine("1")).thenReturn(factory.getStateMachine("1"));
     }
 
     @AfterEach

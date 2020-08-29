@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
-import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
 import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
@@ -20,6 +20,8 @@ import org.springframework.statemachine.data.TransitionRepository;
 import org.springframework.statemachine.data.jpa.JpaPersistingStateMachineInterceptor;
 import org.springframework.statemachine.data.jpa.JpaStateMachineRepository;
 import org.springframework.statemachine.persist.StateMachineRuntimePersister;
+import org.springframework.statemachine.service.DefaultStateMachineService;
+import org.springframework.statemachine.service.StateMachineService;
 
 @Configuration
 @Scope(scopeName = "prototype")
@@ -43,18 +45,18 @@ public class AcceptanceStateMachineConfiguration extends StateMachineConfigurerA
         }
     }
 
+
     @Autowired
-    StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stringStateMachineRuntimePersister;
+    StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stateMachineRuntimePersister;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<AcceptanceStates, AcceptanceEvents> config)
             throws Exception {
             config
                     .withPersistence()
-                    .runtimePersister(stringStateMachineRuntimePersister)
+                    .runtimePersister(stateMachineRuntimePersister)
                     .and()
                     .withConfiguration()
-                    .autoStartup(true)
                     .listener(new StateMachineListener())
 
             ;
@@ -88,4 +90,15 @@ public class AcceptanceStateMachineConfiguration extends StateMachineConfigurerA
 
 
     }
+
+    @Configuration
+    public static class StateMachineServiceConfig {
+        @Bean
+        public DefaultStateMachineService<AcceptanceStates, AcceptanceEvents> stateMachineService(
+                StateMachineFactory<AcceptanceStates, AcceptanceEvents> stateMachineFactory,
+                StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stateMachineRuntimePersister) {
+            return new DefaultStateMachineService<>(stateMachineFactory, stateMachineRuntimePersister);
+        }
+    }
+
 }

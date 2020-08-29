@@ -7,10 +7,13 @@ import mishra.sandeep.acceptancestatemachine.config.AcceptanceStateMachineConfig
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.config.StateMachineFactory;
+import org.springframework.statemachine.persist.StateMachineRuntimePersister;
 import org.springframework.test.context.ContextConfiguration;
 
 import static junit.framework.TestCase.assertTrue;
@@ -27,6 +30,9 @@ class AcceptanceStateMachineApplicationTests {
 	StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
 
 	private StateMachine<AcceptanceStates, AcceptanceEvents> stateMachine;
+
+	@MockBean
+	StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stringStateMachineRuntimePersister;
 
 	@BeforeEach
 	public void setUp() {
