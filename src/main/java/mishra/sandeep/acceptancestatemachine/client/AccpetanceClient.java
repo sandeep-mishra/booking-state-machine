@@ -5,8 +5,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import mishra.sandeep.acceptancestatemachine.proto.EventRequest;
-import mishra.sandeep.acceptancestatemachine.proto.Response;
 import mishra.sandeep.acceptancestatemachine.proto.EventServiceGrpc;
+import mishra.sandeep.acceptancestatemachine.proto.Response;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -25,24 +25,11 @@ public class AccpetanceClient {
         blockingStub = EventServiceGrpc.newBlockingStub(channel);
     }
 
-    public void post(String instructionId, String event) {
-        logger.info("Will try to post event " + event + " ...");
-        EventRequest request = EventRequest.newBuilder().setInstructionId("1").setEvent(event).build();
-        Response response;
-        try {
-            response = blockingStub.post(request);
-        } catch (StatusRuntimeException e) {
-            logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
-            return;
-        }
-        logger.info("Status: " + response.getStatus());
-    }
-
     /**
      * Greet server. If provided, the first element of {@code args} is the name to use in the
      * greeting. The second argument is the target server.
      */
-   public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         String instructionId = "1";
         String event = "";
         // Access a service running on the local machine on port 50051
@@ -77,5 +64,18 @@ public class AccpetanceClient {
             // again leave it running.
             channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
         }
+    }
+
+    public void post(String instructionId, String event) {
+        logger.info("Will try to post event " + event + " ...");
+        EventRequest request = EventRequest.newBuilder().setInstructionId("1").setEvent(event).build();
+        Response response;
+        try {
+            response = blockingStub.post(request);
+        } catch (StatusRuntimeException e) {
+            logger.log(Level.WARNING, "RPC failed: {0}", e.getStatus());
+            return;
+        }
+        logger.info("Status: " + response.getStatus());
     }
 }

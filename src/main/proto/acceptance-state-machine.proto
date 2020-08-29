@@ -16,23 +16,23 @@ message AcceptanceResponse {
 }
 
 
-message Acceptance{
+message Acceptance {
     string id = 1;
     string status = 2;
     string faId = 3;
     string currency = 4;
 }
 
-message StatusSearchRequest{
+message StatusSearchRequest {
     repeated string status = 1;
 }
 
 service EventService {
-    rpc post(EventRequest) returns (Response);
+    rpc post (EventRequest) returns (Response);
 }
 
 service AcceptanceService {
-    rpc createAcceptance(Acceptance) returns (Response);
-    rpc getAcceptance(Acceptance) returns (stream Acceptance);
-    rpc getAcceptancesByStatus(StatusSearchRequest) returns (stream Acceptance);
+    rpc createAcceptance (Acceptance) returns (Response);
+    rpc getAcceptance (Acceptance) returns (stream Acceptance);
+    rpc getAcceptancesByStatus (StatusSearchRequest) returns (stream Acceptance);
 }

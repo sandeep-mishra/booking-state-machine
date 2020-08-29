@@ -75,7 +75,7 @@ public class AcceptanceService extends AcceptanceServiceGrpc.AcceptanceServiceIm
 
         mishra.sandeep.acceptancestatemachine.proto.Acceptance acceptance = null;
 
-        if(instruction.isPresent()) {
+        if (instruction.isPresent()) {
             Acceptance i = instruction.get();
             acceptance = mishra.sandeep.acceptancestatemachine.proto.Acceptance.newBuilder().setId(i.getId()).setCurrency("sgd").setFaId("fa_id").setStatus(i.getState().name()).build();
         }
@@ -90,8 +90,7 @@ public class AcceptanceService extends AcceptanceServiceGrpc.AcceptanceServiceIm
         mishra.sandeep.acceptancestatemachine.proto.Acceptance acceptance = null;
 
         Iterator<Acceptance> iterator = acceptances.listIterator();
-        while(iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Acceptance i = iterator.next();
             responseObserver.onNext(mishra.sandeep.acceptancestatemachine.proto.Acceptance.newBuilder().setId(i.getId()).setCurrency("sgd").setFaId("fa_id").setStatus(i.getState().name()).build());
         }

@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @EntityScan("mishra.sandeep.acceptancestatemachine.model")
 public class AcceptanceStateMachineApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AcceptanceStateMachineApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AcceptanceStateMachineApplication.class, args);
+    }
 
 }

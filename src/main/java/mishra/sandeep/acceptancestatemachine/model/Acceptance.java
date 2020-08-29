@@ -12,6 +12,14 @@ public class Acceptance {
     private AcceptanceStates state;
     private String timestamp;
     private String faId;
+    private String currency;
+
+    public Acceptance() {
+    }
+
+    public Acceptance(String id) {
+        this.setId(id);
+    }
 
     public String getCurrency() {
         return currency;
@@ -21,21 +29,12 @@ public class Acceptance {
         this.currency = currency;
     }
 
-    private String currency;
-
     public String getFaId() {
         return faId;
     }
 
     public void setFaId(String faId) {
         this.faId = faId;
-    }
-
-    public Acceptance() {
-    }
-
-    public Acceptance(String id) {
-        this.setId(id);
     }
 
     public String getId() {

@@ -21,45 +21,31 @@ import org.springframework.statemachine.data.jpa.JpaPersistingStateMachineInterc
 import org.springframework.statemachine.data.jpa.JpaStateMachineRepository;
 import org.springframework.statemachine.persist.StateMachineRuntimePersister;
 import org.springframework.statemachine.service.DefaultStateMachineService;
-import org.springframework.statemachine.service.StateMachineService;
 
 @Configuration
 @Scope(scopeName = "prototype")
 @EnableAutoConfiguration
 @EnableStateMachineFactory
-public class AcceptanceStateMachineConfiguration extends StateMachineConfigurerAdapter<AcceptanceStates, AcceptanceEvents>{
-
-    @Autowired
-    private StateRepository<? extends RepositoryState> stateRepository;
-
-    @Autowired
-    private TransitionRepository<? extends RepositoryTransition> transitionRepository;
-
-    @Configuration
-    public static class JpaPersisterConfig {
-
-        @Bean
-        public StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stateMachineRuntimePersister(
-                JpaStateMachineRepository jpaStateMachineRepository) {
-            return new JpaPersistingStateMachineInterceptor<>(jpaStateMachineRepository);
-        }
-    }
-
+public class AcceptanceStateMachineConfiguration extends StateMachineConfigurerAdapter<AcceptanceStates, AcceptanceEvents> {
 
     @Autowired
     StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stateMachineRuntimePersister;
+    @Autowired
+    private StateRepository<? extends RepositoryState> stateRepository;
+    @Autowired
+    private TransitionRepository<? extends RepositoryTransition> transitionRepository;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<AcceptanceStates, AcceptanceEvents> config)
             throws Exception {
-            config
-                    .withPersistence()
-                    .runtimePersister(stateMachineRuntimePersister)
-                    .and()
-                    .withConfiguration()
-                    .listener(new StateMachineListener())
+        config
+                .withPersistence()
+                .runtimePersister(stateMachineRuntimePersister)
+                .and()
+                .withConfiguration()
+                .listener(new StateMachineListener())
 
-            ;
+        ;
     }
 
     @Override
@@ -86,9 +72,19 @@ public class AcceptanceStateMachineConfiguration extends StateMachineConfigurerA
                 .source(AcceptanceStates.ACCOUNTING_IN_PROGRESS)
                 .timerOnce(10000)
                 .state(AcceptanceStates.CANCELLED)
-                ;
+        ;
 
 
+    }
+
+    @Configuration
+    public static class JpaPersisterConfig {
+
+        @Bean
+        public StateMachineRuntimePersister<AcceptanceStates, AcceptanceEvents, String> stateMachineRuntimePersister(
+                JpaStateMachineRepository jpaStateMachineRepository) {
+            return new JpaPersistingStateMachineInterceptor<>(jpaStateMachineRepository);
+        }
     }
 
     @Configuration

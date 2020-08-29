@@ -30,20 +30,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @RunWith(SpringRunner.class)
 class AcceptanceServiceTest {
 
-    @InjectMocks
-    AcceptanceService acceptanceService;
-
-    @Mock
-    AcceptanceRepository acceptanceRepository;
-
-    @Mock
-    DefaultStateMachineService<AcceptanceStates, AcceptanceEvents> stateMachineService;
-
-   @Autowired
-    StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
-
     @Rule
     public final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
+    @InjectMocks
+    AcceptanceService acceptanceService;
+    @Mock
+    AcceptanceRepository acceptanceRepository;
+    @Mock
+    DefaultStateMachineService<AcceptanceStates, AcceptanceEvents> stateMachineService;
+    @Autowired
+    StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
 
     @BeforeEach
     void setUp() throws Exception {
