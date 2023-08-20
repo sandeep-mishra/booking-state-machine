@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.statemachine.config.StateMachineFactory;
 import org.springframework.statemachine.service.DefaultStateMachineService;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,33 +28,14 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest
 class AcceptanceServiceTest {
 
     @Rule
     public final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
-    @InjectMocks
-    AcceptanceService acceptanceService;
-    @Mock
-    AcceptanceRepository acceptanceRepository;
-    @Mock
-    DefaultStateMachineService<AcceptanceStates, AcceptanceEvents> stateMachineService;
+
     @Autowired
-    StateMachineFactory<AcceptanceStates, AcceptanceEvents> factory;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-
-        mishra.sandeep.acceptancestatemachine.model.Acceptance acceptance = new mishra.sandeep.acceptancestatemachine.model.Acceptance();
-        acceptance.setId("1");
-        acceptance.setState(AcceptanceStates.PENDING);
-        acceptance.setCurrency("SGD");
-
-        Mockito.when(acceptanceRepository.save(acceptance)).thenReturn(acceptance);
-        Mockito.when(stateMachineService.hasStateMachine("1")).thenReturn(false);
-        Mockito.when(stateMachineService.acquireStateMachine("1")).thenReturn(factory.getStateMachine("1"));
-    }
+    AcceptanceService acceptanceService;
 
     @AfterEach
     void tearDown() {
@@ -81,6 +63,7 @@ class AcceptanceServiceTest {
 
     @Test
     void getAcceptance() {
+
     }
 
     @Test
